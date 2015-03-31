@@ -2,7 +2,7 @@
 - Clone this repository, `git clone git@github.com:Razenghan/coding-exercise.git`
 
   -- OR --
-- Download and unzip from https://github.com/Razenghan/coding-exercise/archive/download.zip
+- Download and unzip from https://github.com/Razenghan/coding-exercise/archive/release-0.1.zip
 
 ## Running the console command
 *Console program is written in Ruby*
