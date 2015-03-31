@@ -1,9 +1,8 @@
 require 'pry'
-require_relative 'additive_method_validator.rb'
+require_relative '../additive_method_validator.rb'
 
 RSpec.configure do |config|
   config.formatter = :documentation   # Output the test names
-  config.color_enabled = true         # Colorize pass/fail output
 end
 
 describe 'AdditiveMethodValidator' do
