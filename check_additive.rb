@@ -1,63 +1,79 @@
-#!/usr/bin/ruby
+# -- Requirement --
+# You are given a function 'secret()' that accepts a single integer parameter
+# and returns an integer. In your favorite programming language, write a 
+# command-line program that takes one command-line argument (a number) and determines 
+# if the secret() function is additive [secret(x+y) = secret(x) + secret(y)], for all 
+# combinations x and y, where x and y are all prime numbers less than the number passed 
+# via the command-line argument.  Describe how to run your examples.”
 
-class SomethingThatImplementSecret
-	# We need SOMETHING to implement secret...
-	# let's just make a linear function
-	def secret(input)
-		return input + 1
+# -- Developer note --
+# It doesn't matter what secret() does here...its implementation can be anything,
+# our goal is to simply determine if it is "additive", or satisfying the following:
+# "func(x) + func(y) == func(x+y)"
+require 'pry'
+
+secret = Proc.new { |input|
+	input 
+}
+
+class AdditiveMethodValidator
+
+	def is_method_additive?(method, number)
+		prime_numbers = find_prime_numbers(number)
+		is_additive_for_primes?(method, prime_numbers)
+		# (method.call(x) + method.call(y) == method.call(x + y))? true : false
 	end
-end
 
-def get_prime_numbers(input)
-	prime_numbers = []
-	for i in 1..(input - 1)
-		if is_prime?(i)
-			prime_numbers << i
+	private
+
+	def find_prime_numbers(number)
+		prime_numbers = []
+		for i in 1..(number - 1)
+			if is_prime?(i)
+				prime_numbers << i
+			end
 		end
+
+		return prime_numbers	
 	end
-	return prime_numbers	
-end
 
-private
-
-def is_secret_additive_for_our_input?(prime_numbers)
-	for x in prime_numbers
-		secret_of_x = secret(x)
-
-		for y in prime_numbers
-			secret_of_y = secret(y)
-
-			secret_of_x_and_y = secret(x + y)
-			puts "Combination: #{x}, #{y}"
-			puts "#{secret_of_x}, #{secret_of_y}, #{secret_of_x_and_y}\n"
-			if (secret_of_x + secret_of_y != secret_of_x_and_y)
+	def is_prime?(number)
+		for divisor in 2..(number - 1)
+			if (number % divisor) == 0
 				return false
 			end
 		end
-	end
-	return true
-end
 
-def is_prime?(input)
-  for divisor in 2..(input - 1)
-    if (input % divisor) == 0
-      return false
-    end
-  end
-  return true
+		return true
+	end
+
+	def is_additive_for_primes?(method, prime_numbers)
+		binding.pry
+		for x in prime_numbers
+			secret_of_x = method.call(x)
+
+			for y in prime_numbers
+				secret_of_y = method.call(y)
+
+				secret_of_x_and_y = method.call(x + y)
+				puts "Combination: #{x}, #{y}"
+				puts "#{secret_of_x}, #{secret_of_y}, #{secret_of_x_and_y}\n"
+				if (secret_of_x + secret_of_y != secret_of_x_and_y)
+					return false
+				end
+			end
+		end
+
+		return true
+	end
 end
 
 puts "Enter an integer:"
-# Read from standard input
-cmd_input = STDIN.gets.chomp
-# scrub the input for non-integer values
-scrubbed_input = cmd_input.gsub(/\D/,'').to_i
-puts "scrubbed input: #{scrubbed_input}"
+std_input = STDIN.gets.chomp
+number_input = std_input.gsub(/\D/, '').to_i	# scrub the input for non-integer values
 
-prime_numbers = get_prime_numbers(scrubbed_input)
-puts "PRIME NUMBERS: #{prime_numbers}"
-
-puts "--- IS ADDITIVE? #{is_secret_additive_for_our_input?(prime_numbers)}"
+validator = AdditiveMethodValidator.new
+return validator.is_method_additive?(secret, number_input)
 
 
 
