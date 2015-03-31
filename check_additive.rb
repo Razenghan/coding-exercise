@@ -13,13 +13,23 @@ require_relative 'additive_method_validator.rb'
 # It doesn't matter what secret() does here...its implementation can be anything.
 # The goal is determine if it is "additive", or satisfying the following:
 # "func(x) + func(y) == func(x+y)"
+#
+# To test another method, replace secret's implementation here:
 secret = Proc.new { |input|
 	input * 2
 }
 
-puts "Enter an integer:"
-std_input = STDIN.gets.chomp
-number_input = std_input.gsub(/\D/, '').to_i	# scrub the input for non-integer values
+number_input = 0
+
+# Prompt for input, keep prompting until a positive integer is entered
+until number_input > 0
+	puts "Enter a positive integer:"
+	std_input = STDIN.gets.chomp
+	# Scrub for non-integer values, treat non-negative as bad 
+	unless std_input.slice(0) == '-'
+		number_input = std_input.gsub(/\D/, '').to_i
+	end
+end
 
 validator = AdditiveMethodValidator.new
 is_additive = validator.is_method_additive?(secret, number_input)
