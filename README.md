@@ -16,7 +16,7 @@
    - If **any** combination (x,y) does *not* satisfy the above condition, the program prints `false`
    
 ## Running the test
-*A test is provided, written in RSpec.  The console command above only implements the 'secret' method once, with a linear function that is *always* additive.  This test covers both linear and non-linear implementations, which are additive / non-additive, respectively*
+*A test is provided, written in RSpec.  The console command above only implements the 'secret' method once, with a linear function that is always additive.  This test covers both linear and non-linear implementations, which are additive / non-additive, respectively*
 
 1. Install RSpec and its dependencies, if needed:  `gem install rspec`
 2. Execute `rspec spec/check_additive_spec.rb`  The test asserts the following:
